@@ -1,0 +1,32 @@
+---
+- name: Change default admin password
+  uri:
+    url: "http://{{couchbase.clusterip}}:{{couchbase.clusterport}}/settings/web"
+    method: POST
+    body: "username={{couchbase.username}}&password={{couchbase.new_pass}}&port={{couchbase.clusterport}}" 
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+  run_once: true
+  delegate_to: node1
+- name: Add second node
+  uri:
+    url: "http://{{couchbase.clusterip}}:{{couchbase.clusterport}}/controller/addNode"
+    method: POST
+    user: "{{couchbase.username}}"
+    password: "{{couchbase.new_pass}}"
+    body: "user={{couchbase.username}}&password={{couchbase.new_pass}}&hostname={{couchbase.node2}}" 
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+  run_once: true
+  delegate_to: node1
+- name: Rebalance nodes
+  uri:
+    url: "http://{{couchbase.clusterip}}:{{couchbase.clusterport}}/controller/rebalance "
+    method: POST
+    user: "{{couchbase.username}}"
+    password: "{{couchbase.new_pass}}"
+    body: "knownNodes=ns_1%40{{couchbase.clusterip}}%2Cns_1%40{{couchbase.node2}}" 
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+  run_once: true
+  delegate_to: node1

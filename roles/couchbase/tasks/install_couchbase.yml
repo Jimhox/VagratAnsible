@@ -1,0 +1,12 @@
+---
+- name: Download couchbase.rpm
+  command: "wget -O {{couchbase.rpm}} {{ couchbase.url }}"
+- name: Install couchbase rpm
+  yum: name="{{couchbase.rpm}}" state=present
+  become: true
+- name: Open 8091,8092,4369  ports
+  command: iptables -A INPUT -p tcp --match multiport --dports 8091,8092,4369 -j ACCEPT
+  become: true
+- name: Save iptables rules
+  command:  iptables-save
+  become: true

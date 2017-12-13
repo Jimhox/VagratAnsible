@@ -1,0 +1,14 @@
+---
+- name: Download couchbase.rpm
+  get_url:
+    url:  "{{ couchbase.url }}"
+    dest: /tmp/couchbase.rpm
+    mode: 0744
+- name: Install couchbase rpm
+  yum: name=/tmp/couchbase.rpm state=present
+- name: Open 8091  port
+  command: iptables -I INPUT -p tcp -m tcp --dport 8091 -j ACCEPT
+- name: Open 8092  port
+  command: iptables -I INPUT -p tcp -m tcp --dport 8092 -j ACCEPT
+- name: Save iptables rules
+  command:  iptables-save

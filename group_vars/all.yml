@@ -1,0 +1,9 @@
+---
+couchbase:
+   url: "https://packages.couchbase.com/releases/5.0.0/couchbase-server-community-5.0.0-centos6.x86_64.rpm"
+   username: Administrator   
+   new_pass: "123456"
+   clusterip: "172.17.177.21"
+   node2: "172.17.177.22"
+   clusterport: "8091"
+   rpm: "/tmp/couchbase.rpm"

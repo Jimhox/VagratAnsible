@@ -1,0 +1,13 @@
+---
+- name: Create bucket
+  uri:
+    url: "http://{{couchbase.clusterip}}:{{couchbase.clusterport}}/pools/default/buckets"
+    method: POST
+    user: "{{couchbase.username}}"
+    password: "{{couchbase.new_pass}}"
+    body: "name=testbucket&saslPassword={{couchbase.new_pass}}&bucketType=couchbase&replicaNumber=2&ramQuotaMB=200" 
+    status_code: 202
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+  run_once: true
+  delegate_to: node1

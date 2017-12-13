@@ -1,0 +1,4 @@
+---
+-  include_tasks: install_couchbase.yml 
+-  include_tasks: init_cluster.yml
+-  include_tasks: create_bucket.yml
